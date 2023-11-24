@@ -4,9 +4,13 @@ import dotenv from 'dotenv'
 import express, { Application } from 'express'
 import http from 'http'
 import compression from 'compression'
-import routers from './routers'
+import helmet from 'helmet'
+import routers from '@routers'
+import morgan from '@utils/logger/morgan'
+import baseMiddleware from '@middlewares/baseMiddleware'
+import { handleErrorApi } from '@utils/errors'
+import sequelize from '@sequelize'
 
-//For env File
 dotenv.config()
 
 const app: Application = express()
@@ -20,11 +24,23 @@ app.use(
 
 app.use(compression())
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+
+// security
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet())
+}
 
 const server = http.createServer(app)
 
-server.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`)
+server.listen(port, async () => {
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+    console.log(`Server is Fire at http://localhost:${port}`)
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
 })
 
-app.use('/', routers())
+app.use('/api', morgan, baseMiddleware, routers, handleErrorApi)

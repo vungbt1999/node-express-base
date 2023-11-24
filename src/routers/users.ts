@@ -1,10 +1,9 @@
+import { UserControllers } from '@controllers'
 import express, { Router } from 'express'
-import { UserControllers } from '../controllers'
 
 const router: Router = express.Router()
 
-router.get('/', UserControllers.getAllUsers)
-router.delete('/:id', UserControllers.deleteUser)
-router.put('/:id', UserControllers.deleteUser)
+router.get('/', UserControllers.getAllUser)
+router.post('/', UserControllers.createUser)
 
 export default router

@@ -1,35 +1,21 @@
+import { UserServices } from '@services'
 import express from 'express'
 
-const getAllUsers = async (req: express.Request, res: express.Response) => {
+const getAllUser = async (req: express.Request, res: express.Response) => {
   try {
-    return res.status(200).json([])
+    const users = await UserServices.list()
+    return res.status(200).json({ data: users })
   } catch (error) {
     console.log(error)
     return res.sendStatus(400)
   }
 }
 
-const deleteUser = async (req: express.Request, res: express.Response) => {
+const createUser = async (req: express.Request, res: express.Response) => {
   try {
-    const { id } = req.params
-
-    return res.json({ id })
-  } catch (error) {
-    console.log(error)
-    return res.sendStatus(400)
-  }
-}
-
-const updateUser = async (req: express.Request, res: express.Response) => {
-  try {
-    const { id } = req.params
-    const { username } = req.body
-
-    if (!username) {
-      return res.sendStatus(400)
-    }
-
-    return res.status(200).json({ id }).end()
+    const { body } = req
+    const user = await UserServices.create(body)
+    return res.status(200).json({ data: user })
   } catch (error) {
     console.log(error)
     return res.sendStatus(400)
@@ -37,7 +23,6 @@ const updateUser = async (req: express.Request, res: express.Response) => {
 }
 
 export const UserControllers = {
-  getAllUsers,
-  deleteUser,
-  updateUser,
+  getAllUser,
+  createUser,
 }

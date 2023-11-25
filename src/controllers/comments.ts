@@ -6,7 +6,6 @@ const getAllComment = async (req: express.Request, res: express.Response) => {
     const comments = await CommentServices.list()
     return res.status(200).json({ data: comments })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }
@@ -17,7 +16,6 @@ const createComment = async (req: express.Request, res: express.Response) => {
     const comment = await CommentServices.create(body)
     return res.status(200).json({ data: comment })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }

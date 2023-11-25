@@ -6,7 +6,6 @@ const getAllPost = async (req: express.Request, res: express.Response) => {
     const posts = await PostServices.list()
     return res.status(200).json({ data: posts })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }
@@ -17,7 +16,6 @@ const createPost = async (req: express.Request, res: express.Response) => {
     const post = await PostServices.create(body)
     return res.status(200).json({ data: post })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }

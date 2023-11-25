@@ -1,3 +1,4 @@
+import { EUserRole } from '@types'
 import { Request } from 'express'
 import { i18n, TFunction } from 'i18next'
 
@@ -28,5 +29,5 @@ declare global {
 
 export type Payload = {
   id: string
-  type: 'user' | 'admin'
+  type: EUserRole
 }

@@ -6,7 +6,6 @@ const getAllFavorite = async (req: express.Request, res: express.Response) => {
     const favorites = await FavoriteServices.list()
     return res.status(200).json({ data: favorites })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }
@@ -17,7 +16,6 @@ const createFavorite = async (req: express.Request, res: express.Response) => {
     const favorite = await FavoriteServices.create(body)
     return res.status(200).json({ data: favorite })
   } catch (error) {
-    console.log(error)
     return res.sendStatus(400)
   }
 }

@@ -4,7 +4,7 @@ import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
 
 class UserModel extends Model<IUserAttributes> implements IUserAttributes {
-  public id?: string
+  public id!: string
   public username!: string
   public password!: string
   public role!: EUserRole
@@ -40,7 +40,8 @@ UserModel.init(
         EUserRole.Employee,
         EUserRole.Employer,
       ),
-      allowNull: false,
+      defaultValue: EUserRole.Employee,
+      allowNull: true,
     },
   },
   {

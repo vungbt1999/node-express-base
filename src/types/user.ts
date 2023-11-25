@@ -10,5 +10,5 @@ export interface IUserAttributes extends IModelBase {
   username: string
   password: string
   avatarUrl?: string
-  role: EUserRole
+  role?: EUserRole
 }

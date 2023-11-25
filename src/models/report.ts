@@ -1,11 +1,14 @@
 import sequelize from '@sequelize'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import Post from './posts'
-import User from './users'
+import Post from './post'
+import User from './user'
 import { EReportReason, IReportsAttributes } from '@types'
 
-class Reports extends Model<IReportsAttributes> implements IReportsAttributes {
+class ReportModel
+  extends Model<IReportsAttributes>
+  implements IReportsAttributes
+{
   public id!: string
   public userId!: string
   public postId!: string
@@ -16,10 +19,10 @@ class Reports extends Model<IReportsAttributes> implements IReportsAttributes {
   public deletedAt?: Date
 }
 
-Reports.init(
+ReportModel.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: () => uuidv4(),
       primaryKey: true,
     },
@@ -46,6 +49,7 @@ Reports.init(
   {
     sequelize,
     modelName: 'report',
+    freezeTableName: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
@@ -53,7 +57,18 @@ Reports.init(
   },
 )
 
-// Reports.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-// Reports.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
-
-export default Reports
+ReportModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
+ReportModel.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
+Post.hasMany(ReportModel, {
+  foreignKey: 'postId',
+  as: 'reports',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
+User.hasMany(ReportModel, {
+  foreignKey: 'userId',
+  as: 'reports',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
+export default ReportModel

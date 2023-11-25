@@ -1,13 +1,10 @@
 import sequelize from '@sequelize'
+import { IPostAttributes } from '@types'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import User from './users'
-import Comments from './comments'
-import Reports from './reports'
-import Favorites from './favorites'
-import { IPostAttributes } from '@types'
+import User from './user'
 
-class Post extends Model<IPostAttributes> implements IPostAttributes {
+class PostModel extends Model<IPostAttributes> implements IPostAttributes {
   public id!: string
   public title!: string
   public content!: string
@@ -22,10 +19,10 @@ class Post extends Model<IPostAttributes> implements IPostAttributes {
   public deletedAt?: Date
 }
 
-Post.init(
+PostModel.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: () => uuidv4(),
       primaryKey: true,
     },
@@ -67,6 +64,7 @@ Post.init(
   {
     sequelize,
     modelName: 'post',
+    freezeTableName: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
@@ -74,9 +72,12 @@ Post.init(
   },
 )
 
-// Post.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-// Post.hasMany(Comments, { as: 'comments', foreignKey: 'postId' })
-// Post.hasMany(Reports, { as: 'reports', foreignKey: 'postId' })
-// Post.hasMany(Favorites, { as: 'favorites', foreignKey: 'postId' })
+PostModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
+User.hasMany(PostModel, {
+  foreignKey: 'userId',
+  as: 'posts',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
 
-export default Post
+export default PostModel

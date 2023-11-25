@@ -1,11 +1,11 @@
 import sequelize from '@sequelize'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import User from './users'
-import Post from './posts'
+import User from './user'
+import Post from './post'
 import { IFavoritesAttributes } from '@types'
 
-class Favorites
+class FavoriteModel
   extends Model<IFavoritesAttributes>
   implements IFavoritesAttributes
 {
@@ -17,10 +17,10 @@ class Favorites
   public deletedAt?: Date
 }
 
-Favorites.init(
+FavoriteModel.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: () => uuidv4(),
       primaryKey: true,
     },
@@ -36,6 +36,7 @@ Favorites.init(
   {
     sequelize,
     modelName: 'favorite',
+    freezeTableName: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
@@ -43,7 +44,19 @@ Favorites.init(
   },
 )
 
-// Favorites.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-// Favorites.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
+FavoriteModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
+FavoriteModel.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
+Post.hasMany(FavoriteModel, {
+  foreignKey: 'postId',
+  as: 'favorites',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
+User.hasMany(FavoriteModel, {
+  foreignKey: 'userId',
+  as: 'favorites',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
 
-export default Favorites
+export default FavoriteModel

@@ -1,14 +1,10 @@
 import sequelize from '@sequelize'
+import { EUserRole, IUserAttributes } from '@types'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import Post from './posts'
-import Comments from './comments'
-import Reports from './reports'
-import Favorites from './favorites'
-import { EUserRole, IUserAttributes } from '@types'
 
-class User extends Model<IUserAttributes> implements IUserAttributes {
-  public id!: string
+class UserModel extends Model<IUserAttributes> implements IUserAttributes {
+  public id?: string
   public username!: string
   public password!: string
   public role!: EUserRole
@@ -18,10 +14,10 @@ class User extends Model<IUserAttributes> implements IUserAttributes {
   public deletedAt?: Date
 }
 
-User.init(
+UserModel.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: () => uuidv4(),
       primaryKey: true,
     },
@@ -50,6 +46,7 @@ User.init(
   {
     sequelize,
     modelName: 'user',
+    freezeTableName: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
@@ -57,15 +54,10 @@ User.init(
   },
 )
 
-User.prototype.toJSON = function () {
+UserModel.prototype.toJSON = function () {
   const values: any = Object.assign({}, this.get())
   delete values.password
   return values
 }
 
-// User.hasMany(Post, { as: 'posts', foreignKey: 'userId' })
-// User.hasMany(Comments, { as: 'comments', foreignKey: 'userId' })
-// User.hasMany(Reports, { as: 'reports', foreignKey: 'userId' })
-// User.hasMany(Favorites, { as: 'favorites', foreignKey: 'userId' })
-
-export default User
+export default UserModel

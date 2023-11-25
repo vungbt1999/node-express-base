@@ -1,11 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import User from './users'
-import Post from './posts'
+import User from './user'
+import Post from './post'
 import { ICommentsAttributes } from '@types'
 import sequelize from '@sequelize'
 
-class Comments
+class CommentModel
   extends Model<ICommentsAttributes>
   implements ICommentsAttributes
 {
@@ -18,10 +18,10 @@ class Comments
   public deletedAt?: Date
 }
 
-Comments.init(
+CommentModel.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
       defaultValue: () => uuidv4(),
       primaryKey: true,
     },
@@ -41,6 +41,7 @@ Comments.init(
   {
     sequelize,
     modelName: 'comment',
+    freezeTableName: true,
     timestamps: true,
     createdAt: true,
     updatedAt: true,
@@ -48,7 +49,19 @@ Comments.init(
   },
 )
 
-// Comments.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-// Comments.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
+CommentModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
+CommentModel.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
+Post.hasMany(CommentModel, {
+  foreignKey: 'postId',
+  as: 'comments',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
+User.hasMany(CommentModel, {
+  foreignKey: 'userId',
+  as: 'comments',
+  onDelete: 'CASCADE',
+  hooks: true,
+})
 
-export default Comments
+export default CommentModel

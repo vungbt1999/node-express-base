@@ -8,7 +8,6 @@ import helmet from 'helmet'
 import routers from '@routers'
 import morgan from '@utils/logger/morgan'
 import baseMiddleware from '@middlewares/baseMiddleware'
-import { handleErrorApi } from '@utils/errors'
 import sequelize from '@sequelize'
 
 dotenv.config()
@@ -31,16 +30,16 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet())
 }
 
-const server = http.createServer(app)
+app.use('/api', morgan, baseMiddleware, routers)
 
+const server = http.createServer(app)
 server.listen(port, async () => {
   try {
     await sequelize.authenticate()
+    await sequelize.sync()
     console.log('Connection has been established successfully.')
-    console.log(`Server is Fire at http://localhost:${port}`)
+    console.log(`Server is Fire at http://localhost:${port}/api`)
   } catch (error) {
     console.error('Unable to connect to the database:', error)
   }
 })
-
-app.use('/api', morgan, baseMiddleware, routers, handleErrorApi)

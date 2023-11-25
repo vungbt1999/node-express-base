@@ -1,7 +1,21 @@
-import Post from '@models/posts'
+import CommentModel from '@models/comment'
+import Post from '@models/post'
+import User from '@models/user'
 
 const list = async () => {
-  return await Post.findAll()
+  return await Post.findAll({
+    include: [
+      {
+        model: User,
+        as: 'user',
+        required: false,
+      },
+      {
+        model: CommentModel,
+        as: 'comments',
+      },
+    ],
+  })
 }
 
 const create = async (postData: {
@@ -11,7 +25,7 @@ const create = async (postData: {
   career: string
   general: string
 }): Promise<Post> => {
-  return Post.create({ ...postData, id: '' })
+  return Post.create({ ...postData })
 }
 
 export const PostServices = {

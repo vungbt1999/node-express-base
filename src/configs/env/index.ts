@@ -12,6 +12,12 @@ export default {
   server: {
     env: process.env.NODE_ENV ?? 'development',
     host: process.env.HOST ?? 'http://localhost',
-    port: process.env.PORT ?? 3000,
+    port: process.env.PORT ?? 4000,
+  },
+  cloudinary: {
+    name: process.env.CLOUDINARY_NAME ?? 'dqt2c5wxb',
+    key: process.env.CLOUDINARY_API_KEY ?? '671853612969619',
+    secret: process.env.CLOUDINARY_API_SECRET ?? 'Fcop5ct7H8qPon4f_hJEZ52WAt0',
+    domain: process.env.CLOUDINARY_DOMAIN ?? 'https://api.cloudinary.com/v1_1/',
   },
 }

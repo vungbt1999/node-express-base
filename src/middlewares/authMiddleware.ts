@@ -1,6 +1,6 @@
 import { Payload } from '@type'
 import { EUserRole } from '@types'
-import env from '@utils/env'
+import env from '@configs/env'
 import Forbidden from '@utils/errors/Forbidden'
 import Unauthorized from '@utils/errors/Unauthorized'
 import jwt from '@utils/jwt'

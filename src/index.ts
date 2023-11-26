@@ -13,11 +13,11 @@ import i18next from '@locale/config/i18next'
 import { handleErrorApi } from '@utils/errors'
 import logger from '@utils/logger'
 import path from 'path'
-import env from '@utils/env'
+import env from '@configs/env'
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 const app: Application = express()
-const port = env.server.port ?? 3000
+const port = env.server.port ?? 4000
 
 // basic
 app.use(compression())
@@ -55,7 +55,7 @@ server.listen(port, async () => {
     await sequelize.sync()
     logger.info(`[DB] ✔ Connection has been established successfully.`)
     logger.info(
-      `[App] ✔ started on worker ${process.pid} http://localhost::${port}/api`,
+      `[App] ✔ started on worker ${process.pid} http://localhost:${port}/api`,
     )
   } catch (error) {
     logger.error(`[App] ✔ Unable to connect to the database:`, error)

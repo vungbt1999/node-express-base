@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import InputValidError from '@utils/errors/InputValidError'
 import ServerError from '@utils/errors/ServerError'
-import env from '@utils/env'
-import Validator, { ValidationConfig } from './config'
+import env from '@configs/env'
+import Validator, { ValidationConfig } from '../../configs/validator'
 
 const validator = (
   req: Request,

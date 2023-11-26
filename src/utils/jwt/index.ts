@@ -2,7 +2,7 @@ import { Payload } from '@type'
 import jwt from 'jsonwebtoken'
 import { addSeconds } from 'date-fns'
 import { IJwtRes } from '@types'
-import env from '@utils/env'
+import env from '@configs/env'
 export default jwt
 
 export const createToken = (payload: Payload, expiresIn: number) => {

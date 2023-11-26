@@ -1,4 +1,4 @@
-import env from '@utils/env'
+import env from '@configs/env'
 import fs from 'fs-extra'
 import i18next from 'i18next'
 import middleware from 'i18next-http-middleware'

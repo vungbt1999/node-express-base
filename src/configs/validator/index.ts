@@ -1,7 +1,7 @@
 import Validator from 'validatorjs'
-import existsRule from '../rule/existsRule'
-import uniqueRule from '../rule/uniqueRule'
-import dateTimeISORule from '../rule/dateTimeISORule'
+import existsRule from './rule/existsRule'
+import uniqueRule from './rule/uniqueRule'
+import dateTimeISORule from './rule/dateTimeISORule'
 
 Validator.registerAsync('exists', existsRule, 'exists')
 Validator.registerAsync('unique', uniqueRule, 'unique')

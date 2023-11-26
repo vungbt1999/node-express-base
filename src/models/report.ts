@@ -1,8 +1,8 @@
 import sequelize from '@sequelize'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import Post from './post'
-import User from './user'
+import PostModal from './post'
+import UserModal from './user'
 import { EReportReason, IReportsAttributes } from '@types'
 
 class ReportModel
@@ -57,15 +57,15 @@ ReportModel.init(
   },
 )
 
-ReportModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-ReportModel.belongsTo(Post, { as: 'post', foreignKey: 'postId' })
-Post.hasMany(ReportModel, {
+ReportModel.belongsTo(UserModal, { as: 'user', foreignKey: 'userId' })
+ReportModel.belongsTo(PostModal, { as: 'post', foreignKey: 'postId' })
+PostModal.hasMany(ReportModel, {
   foreignKey: 'postId',
   as: 'reports',
   onDelete: 'CASCADE',
   hooks: true,
 })
-User.hasMany(ReportModel, {
+UserModal.hasMany(ReportModel, {
   foreignKey: 'userId',
   as: 'reports',
   onDelete: 'CASCADE',

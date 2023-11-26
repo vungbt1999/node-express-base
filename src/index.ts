@@ -52,7 +52,7 @@ const server = http.createServer(app)
 server.listen(port, async () => {
   try {
     await sequelize.authenticate()
-    await sequelize.sync({ force: true })
+    await sequelize.sync()
     logger.info(`[DB] ✔ Connection has been established successfully.`)
     logger.info(
       `[App] ✔ started on worker ${process.pid} http://localhost::${port}/api`,

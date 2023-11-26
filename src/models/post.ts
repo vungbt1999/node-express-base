@@ -2,7 +2,7 @@ import sequelize from '@sequelize'
 import { IPostAttributes } from '@types'
 import { DataTypes, Model } from 'sequelize'
 import { v4 as uuidv4 } from 'uuid'
-import User from './user'
+import UserModal from './user'
 
 class PostModel extends Model<IPostAttributes> implements IPostAttributes {
   public id!: string
@@ -72,8 +72,8 @@ PostModel.init(
   },
 )
 
-PostModel.belongsTo(User, { as: 'user', foreignKey: 'userId' })
-User.hasMany(PostModel, {
+PostModel.belongsTo(UserModal, { as: 'user', foreignKey: 'userId' })
+UserModal.hasMany(PostModel, {
   foreignKey: 'userId',
   as: 'posts',
   onDelete: 'CASCADE',

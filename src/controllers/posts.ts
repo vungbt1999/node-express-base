@@ -1,22 +1,30 @@
+import HttpStatus from 'http-status-codes'
 import { PostServices } from '@services'
-import express from 'express'
+import { IPostFindAllReq } from '@types'
+import { NextFunction, Request, Response } from 'express'
 
-const getAllPost = async (req: express.Request, res: express.Response) => {
+const getAllPost = async (
+  req: Request<{}, {}, {}, IPostFindAllReq>,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const posts = await PostServices.list()
-    return res.status(200).json({ data: posts })
+    const queries = req.query
+    const pagination = req.pagination
+    const posts = await PostServices.list(queries, pagination)
+    return res.jsonApi(HttpStatus.OK, posts)
   } catch (error) {
-    return res.sendStatus(400)
+    next(error)
   }
 }
 
-const createPost = async (req: express.Request, res: express.Response) => {
+const createPost = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { body } = req
     const post = await PostServices.create(body)
-    return res.status(200).json({ data: post })
+    return res.jsonApi(HttpStatus.OK, { ...post })
   } catch (error) {
-    return res.sendStatus(400)
+    next(error)
   }
 }
 

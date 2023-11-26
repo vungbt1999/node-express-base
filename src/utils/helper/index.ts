@@ -1,3 +1,4 @@
+import { IPaginationReq } from '@types'
 import _ from 'lodash'
 
 export type OptionStrGenerate = {
@@ -107,4 +108,12 @@ export const sortObjectByKey = (data: ObjectMultiDepth) => {
       }
     })
   return newData
+}
+
+export const resPagination = (count: number, pagination: IPaginationReq) => {
+  const totalPages = Math.ceil(count / (pagination?.pageSize ?? 10))
+  return {
+    totalPages,
+    count,
+  }
 }

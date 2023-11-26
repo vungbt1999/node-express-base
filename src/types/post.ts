@@ -10,3 +10,7 @@ export interface IPostAttributes extends IModelBase {
   assetUrls?: string[]
   embedUrl?: string
 }
+
+export interface IPostFindAllReq {
+  q?: string
+}

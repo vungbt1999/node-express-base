@@ -7,5 +7,6 @@
   "unauthorized": "Unauthorized",
   "forbidden": "Forbidden",
   "valid_error": "Valid error",
-  "user_conflict": "User conflict"
+  "user_conflict": "User conflict",
+  "server_error": "Server error"
 }

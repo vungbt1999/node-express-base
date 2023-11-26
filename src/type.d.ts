@@ -1,4 +1,4 @@
-import { EUserRole } from '@types'
+import { EUserRole, IPaginationReq } from '@types'
 import { Request } from 'express'
 import { i18n, TFunction } from 'i18next'
 
@@ -17,6 +17,7 @@ declare global {
       i18n: i18n
       t: TFunction
       auth?: Payload
+      pagination: IPaginationReq
     }
 
     interface Response {

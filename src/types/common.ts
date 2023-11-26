@@ -4,3 +4,10 @@ export interface IModelBase {
   updatedAt?: Date
   deletedAt?: Date
 }
+
+export interface IPaginationReq {
+  page?: number
+  pageSize?: number
+  offset?: number
+  limit?: number
+}
